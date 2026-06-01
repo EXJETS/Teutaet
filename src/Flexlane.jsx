@@ -941,8 +941,7 @@ export default function Flexlane() {
 
   const go = (n) => { setStep(n); const el = document.querySelector(".fl-scroll"); if (el) el.scrollTop = 0; window.scrollTo({ top: 0 }); };
   const autoDesktop = useIsDesktop();
-  const [view, setView] = useState("auto"); // "auto" | "desktop" | "mobile"
-  const isDesktop = view === "auto" ? autoDesktop : view === "desktop";
+  const isDesktop = autoDesktop;
 
   return (
     <>
@@ -983,12 +982,6 @@ export default function Flexlane() {
         @media (max-width:860px){.d-grid-split,.d-grid-split2,.d-grid2{grid-template-columns:1fr}.d-sticky{position:static;top:auto}}
         @media (max-width:760px){.d-grid3{grid-template-columns:repeat(2,1fr)}}
       `}</style>
-
-      <div style={{ position: "fixed", top: 14, right: 14, zIndex: 9999, display: "flex", gap: 4, background: C.panel, border: `1px solid ${C.line}`, borderRadius: 999, padding: 4, boxShadow: "0 8px 24px -10px rgba(0,0,0,.3)" }}>
-        {[["desktop", "Desktop"], ["mobile", "Phone"]].map(([v, lbl]) => (
-          <button key={v} onClick={() => setView(v)} style={{ border: "none", cursor: "pointer", borderRadius: 999, padding: "6px 14px", fontSize: 12, fontWeight: 700, fontFamily: SANS, background: view === v ? C.blue : "transparent", color: view === v ? "#fff" : C.sub }}>{lbl}</button>
-        ))}
-      </div>
 
       {isDesktop ? (
         <DesktopApp step={step} trip={trip} setTrip={setTrip} picked={picked} setPicked={setPicked} go={go} journeyIdx={journeyIdx} openDetail={(i) => { setJourneyIdx(i); go(6); }} booking={booking} onBook={handleBook} />
