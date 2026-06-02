@@ -13,22 +13,22 @@ const FIRST_IMG = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBA
 
 /* ---------- palette ---------- */
 const C = {
-  paper: "#0F0B16",
-  panel: "#191222",
-  ink: "#F2EEE9",
-  sub: "#9C95A8",
-  blue: "#8160C2",
-  blueDk: "#5E3F96",
-  gold: "#D0A38F",
-  line: "#2C2438",
-  chip: "rgba(8,6,12,0.62)",
-  peachA: "#2A1E3D",
-  peachB: "#120D1B",
-  mint: "#241B33",
-  sky: "#20182E",
+  paper: "#09090C",
+  panel: "#0F1015",
+  ink: "#F0EDE8",
+  sub: "#808A99",
+  blue: "#2A5DC4",
+  blueDk: "#1A3F96",
+  gold: "#C4906A",
+  line: "#1C2232",
+  chip: "rgba(8,10,16,0.72)",
+  peachA: "#1A2438",
+  peachB: "#0A1018",
+  mint: "#121E2E",
+  sky: "#0E1824",
 };
-const SERIF = "'Jost', system-ui, sans-serif";
-const SANS = "'Jost', system-ui, sans-serif";
+const SERIF = "'Cormorant Garamond', Georgia, serif";
+const SANS = "'DM Sans', system-ui, sans-serif";
 
 // Paste your Google Maps API key here (Maps Embed API enabled). Leave "" to use the drawn fallback map.
 const GMAPS_KEY = "";
@@ -223,7 +223,7 @@ function loadStripe() {
 }
 
 const CARD_STYLE = {
-  base: { fontSize: "15px", color: "#F2EEE9", fontFamily: "'Jost', system-ui, sans-serif", "::placeholder": { color: "#9C95A8" }, iconColor: "#9C95A8" },
+  base: { fontSize: "15px", color: "#F0EDE8", fontFamily: "'DM Sans', system-ui, sans-serif", "::placeholder": { color: "#808A99" }, iconColor: "#808A99" },
   invalid: { color: "#e05252" },
 };
 
@@ -302,12 +302,12 @@ const JDETAIL = [
 
 
 const INCLUDED = [
-  ["meet", "Personal meet & greet"],
-  ["wait", "Up to 15 minutes of free wait time"],
-  ["cancel", "Free to cancel up to 1 hour before pickup"],
-  ["charge", "iOS and Android chargers onboard"],
-  ["wipe", "Complimentary tissues or sanitizing wipes"],
-  ["water", "Complimentary chilled water included"],
+  ["meet", "Personal meet & greet at arrivals"],
+  ["wait", "60 min complimentary wait at airports, 15 min standard"],
+  ["cancel", "Free cancellation up to 1 hour before pickup"],
+  ["charge", "USB-C & Lightning chargers in every vehicle"],
+  ["water", "Still & sparkling water, chilled and ready"],
+  ["wipe", "Spotless cabin, refreshed after every guest"],
 ];
 
 function Spec({ pax, bags, color = C.sub, size = 15 }) {
@@ -360,7 +360,7 @@ function DNav({ go, step }) {
       style={{ background: "none", border: "none", cursor: "pointer", fontFamily: SANS, fontSize: 15, color: step === n ? C.ink : C.sub, fontWeight: step === n ? 600 : 500, padding: "8px 0" }}>{label}</button>
   );
   return (
-    <div style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(15,11,22,.85)", backdropFilter: "blur(10px)", borderBottom: `1px solid ${C.line}` }}>
+    <div style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(9,9,12,.90)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.line}` }}>
       <div className="d-wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 72, padding: "0 24px" }}>
         <button onClick={() => go(0)} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}><Wordmark /></button>
         <div style={{ display: "flex", alignItems: "center", gap: 34 }}>{link("Ride", 0)}{link("Experience", 2)}{link("Help", 5)}</div>
@@ -468,8 +468,8 @@ function OfflineRouteSVG({ trip }) {
         {[1, 2, 3, 4].map((i) => <line key={"h" + i} x1="0" y1={(H * i) / 5} x2={W} y2={(H * i) / 5} />)}
         {[1, 2, 3, 4].map((i) => <line key={"v" + i} x1={(W * i) / 5} y1="0" x2={(W * i) / 5} y2={H} />)}
       </g>
-      {a && b && <line x1={ax} y1={ay} x2={bx} y2={by} stroke="#4B2A78" strokeWidth="4" strokeDasharray="1 11" strokeLinecap="round" />}
-      <circle cx={ax} cy={ay} r="11" fill="#fff" stroke="#4B2A78" strokeWidth="5" />
+      {a && b && <line x1={ax} y1={ay} x2={bx} y2={by} stroke="#2A5DC4" strokeWidth="4" strokeDasharray="1 11" strokeLinecap="round" />}
+      <circle cx={ax} cy={ay} r="11" fill="#fff" stroke="#2A5DC4" strokeWidth="5" />
       {b && <circle cx={bx} cy={by} r="11" fill="#fff" stroke="#141413" strokeWidth="5" />}
       {trip.dist != null && (
         <g>
@@ -493,12 +493,12 @@ function RouteMap({ trip }) {
       map = new ml.Map({ container: ref.current, style: "https://tiles.openfreemap.org/styles/liberty", center: a ? [a.lon, a.lat] : [-96.95, 32.86], zoom: a ? 11 : 9, attributionControl: false });
       map.on("load", () => {
         loaded = true; clearTimeout(timer);
-        if (a) new ml.Marker({ color: "#4B2A78" }).setLngLat([a.lon, a.lat]).addTo(map);
+        if (a) new ml.Marker({ color: "#2A5DC4" }).setLngLat([a.lon, a.lat]).addTo(map);
         if (b) new ml.Marker({ color: "#141413" }).setLngLat([b.lon, b.lat]).addTo(map);
         const coords = trip.routeGeo || (a && b ? [[a.lon, a.lat], [b.lon, b.lat]] : null);
         if (coords && coords.length > 1) {
           map.addSource("rt", { type: "geojson", data: { type: "Feature", geometry: { type: "LineString", coordinates: coords } } });
-          map.addLayer({ id: "rt", type: "line", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": "#4B2A78", "line-width": 4 } });
+          map.addLayer({ id: "rt", type: "line", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": "#2A5DC4", "line-width": 4 } });
           const lons = coords.map((c) => c[0]), lats = coords.map((c) => c[1]);
           map.fitBounds([[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]], { padding: 64, duration: 0 });
         }
@@ -572,9 +572,17 @@ function DHome({ trip, setTrip, go, openDetail }) {
       <div style={{ position: "relative", minHeight: 600, display: "flex", alignItems: "center", backgroundImage: `linear-gradient(90deg, rgba(10,12,16,.85) 0%, rgba(10,12,16,.55) 45%, rgba(10,12,16,.12) 100%), url(${HERO})`, backgroundSize: "cover", backgroundPosition: "center" }}>
         <div className="d-wrap d-herorow" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 40, padding: "70px 24px", width: "100%" }}>
           <div style={{ flex: "1 1 420px", maxWidth: 520, color: "#fff" }}>
-            <div style={{ fontSize: 13, letterSpacing: ".18em", textTransform: "uppercase", opacity: .8, marginBottom: 18 }}>Premium chauffeur service</div>
-            <h1 style={{ fontFamily: SERIF, fontSize: 54, lineHeight: 1.06, fontWeight: 600, margin: 0 }}>Travel in quiet comfort, on your schedule.</h1>
-            <p style={{ fontSize: 18, lineHeight: 1.6, opacity: .9, marginTop: 22, maxWidth: 440 }}>Fixed all-in pricing, vetted professional chauffeurs, and a calm cabin — in hundreds of cities worldwide.</p>
+            <div style={{ fontSize: 12, letterSpacing: ".22em", textTransform: "uppercase", opacity: .75, marginBottom: 20, fontFamily: SANS }}>Upgrade your travels</div>
+            <h1 style={{ fontFamily: SERIF, fontSize: 58, lineHeight: 1.04, fontWeight: 600, margin: 0, letterSpacing: "-.01em" }}>The journey is as important as the destination.</h1>
+            <p style={{ fontSize: 18, lineHeight: 1.65, opacity: .88, marginTop: 24, maxWidth: 430, fontFamily: SANS }}>Fixed all-in pricing. No surge. Vetted professional chauffeurs in 500+ cities, 60+ countries.</p>
+            <div style={{ display: "flex", gap: 10, marginTop: 28, flexWrap: "wrap" }}>
+              {[["★ 4.9", "Rated by guests"], ["No surge pricing", "ever"], ["100% all-inclusive", "taxes & tips included"]].map(([a, b]) => (
+                <div key={a} style={{ background: "rgba(255,255,255,.10)", border: "1px solid rgba(255,255,255,.18)", borderRadius: 30, padding: "7px 16px", display: "flex", gap: 6, alignItems: "center", backdropFilter: "blur(4px)" }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "#fff", fontFamily: SANS }}>{a}</span>
+                  <span style={{ fontSize: 12, color: "rgba(255,255,255,.65)", fontFamily: SANS }}>{b}</span>
+                </div>
+              ))}
+            </div>
           </div>
           <DBookingWidget trip={trip} setTrip={setTrip} go={go} />
         </div>
@@ -582,7 +590,7 @@ function DHome({ trip, setTrip, go, openDetail }) {
 
       <div style={{ background: C.panel, borderBottom: `1px solid ${C.line}` }}>
         <div className="d-wrap" style={{ padding: "56px 24px" }}>
-          <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 600, margin: "0 0 32px" }}>Included in every ride</h2>
+          <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 600, margin: "0 0 32px" }}>Included in every journey</h2>
           <div className="d-grid3">
             {INCLUDED.map(([icon, text]) => (
               <div key={text} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
@@ -595,8 +603,8 @@ function DHome({ trip, setTrip, go, openDetail }) {
       </div>
 
       <div className="d-wrap" style={{ padding: "60px 24px 80px" }}>
-        <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 600, margin: "0 0 8px" }}>Ways to ride</h2>
-        <p style={{ color: C.sub, fontSize: 16, margin: "0 0 32px" }}>Choose the journey that fits your day.</p>
+        <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 600, margin: "0 0 8px" }}>Choose your service</h2>
+        <p style={{ color: C.sub, fontSize: 16, margin: "0 0 32px", fontFamily: SANS }}>Every service. Fixed pricing. No surprises.</p>
         <div className="d-grid4">
           {JOURNEYS.map(([label, tint], i) => (
             <button key={label} className="tile" onClick={() => openDetail(i)}
@@ -1010,8 +1018,8 @@ export default function Flexlane() {
 /* ---------- shared ---------- */
 function Wordmark() {
   return (
-    <span style={{ fontFamily: SERIF, fontSize: 21, fontWeight: 600, letterSpacing: ".02em", color: C.ink }}>
-      Flex<span style={{ color: C.blue }}>/Lane</span>
+    <span style={{ fontFamily: SERIF, fontSize: 22, fontWeight: 500, letterSpacing: ".06em", color: C.ink, textTransform: "uppercase" }}>
+      Flex<span style={{ color: C.gold, fontWeight: 400 }}>/</span>Lane
     </span>
   );
 }
@@ -1034,7 +1042,7 @@ const inputBase = { width: "100%", background: "transparent", border: "none", fo
 function PrimaryBtn({ children, onClick, disabled }) {
   return (
     <button onClick={onClick} disabled={disabled} className="pblue"
-      style={{ width: "100%", background: disabled ? "#2C2438" : C.blue, color: "#fff", border: "none", borderRadius: 30, padding: "16px 0", fontSize: 16, fontWeight: 600, cursor: disabled ? "default" : "pointer", fontFamily: SANS }}>
+      style={{ width: "100%", background: disabled ? C.line : C.blue, color: "#fff", border: "none", borderRadius: 30, padding: "16px 0", fontSize: 16, fontWeight: 600, cursor: disabled ? "default" : "pointer", fontFamily: SANS }}>
       {children}
     </button>
   );
@@ -1084,7 +1092,8 @@ function Landing({ trip, setTrip, go, openMenu, openDetail }) {
           </button>
         </div>
         <div style={{ position: "relative", zIndex: 1, marginTop: "auto", padding: "0 22px 26px" }}>
-          <h1 className="up" style={{ fontFamily: SERIF, color: "#fff", fontSize: 40, fontWeight: 600, lineHeight: 1.05, margin: 0 }}>Let's start<br />your journey</h1>
+          <div style={{ fontSize: 11, letterSpacing: ".2em", textTransform: "uppercase", color: "rgba(255,255,255,.7)", marginBottom: 10, fontFamily: SANS }}>Upgrade your travels</div>
+          <h1 className="up" style={{ fontFamily: SERIF, color: "#fff", fontSize: 38, fontWeight: 600, lineHeight: 1.05, margin: 0 }}>The journey<br />matters too.</h1>
         </div>
       </div>
 
@@ -1109,7 +1118,7 @@ function Landing({ trip, setTrip, go, openMenu, openDetail }) {
 
       <div style={{ padding: "22px 18px 0" }}>
         <div style={{ fontSize: 15, color: C.sub, marginBottom: 12 }}>Your offers</div>
-        <div style={{ borderRadius: 16, padding: "22px 22px 18px", minHeight: 150, background: `linear-gradient(135deg, #2A1E3D, #0F0B16)`, border: `1px solid ${C.line}`, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+        <div style={{ borderRadius: 16, padding: "22px 22px 18px", minHeight: 150, background: `linear-gradient(135deg, #1A2438, #09090C)`, border: `1px solid ${C.line}`, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <span style={{ fontSize: 19, fontWeight: 600 }}>Flex/Lane Member Offer</span>
             <span style={{ fontSize: 30, fontWeight: 700 }}>20%</span>
@@ -1552,7 +1561,7 @@ function MenuDrawer({ open, onClose }) {
 function FixedBottom({ children }) {
   return (
     <div className="max-w-md mx-auto" style={{ position: "fixed", left: 0, right: 0, bottom: 70, padding: "14px 18px", zIndex: 30 }}>
-      <div style={{ background: "rgba(15,11,22,.92)", backdropFilter: "blur(10px)", borderRadius: 18, padding: 6 }}>{children}</div>
+      <div style={{ background: "rgba(9,9,12,.92)", backdropFilter: "blur(10px)", borderRadius: 18, padding: 6 }}>{children}</div>
     </div>
   );
 }
@@ -1561,7 +1570,7 @@ function TabBar({ step, go }) {
   const items = [["Home", "home", 0], ["Journeys", "van", 4], ["Help", "chat", 5]];
   const active = step === 0 ? 0 : step === 4 ? 4 : step === 5 ? 5 : -1;
   return (
-    <div className="max-w-md mx-auto" style={{ position: "fixed", left: 0, right: 0, bottom: 0, background: "rgba(15,11,22,.96)", backdropFilter: "blur(18px)", borderTop: `1px solid ${C.line}`, zIndex: 35 }}>
+    <div className="max-w-md mx-auto" style={{ position: "fixed", left: 0, right: 0, bottom: 0, background: "rgba(9,9,12,.96)", backdropFilter: "blur(18px)", borderTop: `1px solid ${C.line}`, zIndex: 35 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "5px 20px 7px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flex: 1, maxWidth: 290 }}>
           {items.map(([t, ic, target]) => {
