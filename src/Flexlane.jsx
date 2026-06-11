@@ -52,7 +52,7 @@ function Ico({ name, size = 20, color = "currentColor", sw = 1.6 }) {
 
 const CLASSES = [
   { id: "biz", name: "Business Class", car: "Mercedes E-Class or similar", pax: 3, bags: 2, base: 134.0, sur: 22.3, hr: 75, book: 30, mi: 3.2, grad: [C.mint, C.peachB] },
-  { id: "suv", name: "Business SUV", car: "Cadillac Escalade or similar", pax: 5, bags: 5, base: 178.58, sur: 30.36, hr: 95, book: 42, mi: 3.9, grad: [C.peachA, C.peachB] },
+  { id: "suv", name: "Business SUV", car: "Cadillac Escalade or similar", pax: 5, bags: 5, base: 178.58, sur: 30.36, hr: 95, book: 42, mi: 3.9, grad: [C.peachA, C.peachB], img: "/escalade.jpg" },
   { id: "first", name: "First Class", car: "Mercedes S-Class or similar", pax: 3, bags: 2, base: 208.0, sur: 36.1, hr: 120, book: 55, mi: 4.6, grad: [C.sky, C.peachB], img: FIRST_IMG },
 ];
 
@@ -1051,7 +1051,7 @@ function PrimaryBtn({ children, onClick, disabled }) {
 function PhotoBlock({ grad, label, h = 150, chip, corner, img }) {
   const g = Array.isArray(grad) ? grad : [grad, C.paper];
   const bg = img
-    ? { backgroundImage: `url(${img})`, backgroundSize: "cover", backgroundPosition: "center" }
+    ? { backgroundColor: C.paper, backgroundImage: `url(${img})`, backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat: "no-repeat" }
     : { background: `linear-gradient(150deg, ${g[0]}, ${g[1]})` };
   return (
     <div style={{ position: "relative", borderRadius: 14, overflow: "hidden", height: h, display: "flex", alignItems: "flex-end", ...bg }}>
